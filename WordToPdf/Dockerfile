@@ -22,8 +22,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copy only the project file and restore dependencies
-COPY ["WordToPdf/WordToPdf.csproj", "./"]
-RUN dotnet restore "./WordToPdf.csproj"
+COPY ["WordToPdf.csproj", "."]
+RUN dotnet restore "WordToPdf.csproj"
 
 # Copy the remaining files and build
 COPY . .
