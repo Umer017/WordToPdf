@@ -18,8 +18,8 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["WordToPdf/WordToPdf.csproj", "WordToPdf/"]
-RUN dotnet restore "./WordToPdf/WordToPdf.csproj"
+COPY ["WordToPdf/WordToPdf.csproj", "./"]
+RUN dotnet restore "./WordToPdf.csproj"
 COPY . .
 WORKDIR "/src/WordToPdf"
 RUN dotnet build "./WordToPdf.csproj" -c $BUILD_CONFIGURATION -o /app/build
