@@ -22,18 +22,19 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copy only the project file and restore dependencies
-COPY ["WordToPdf.csproj", "."]
-RUN dotnet restore "WordToPdf.csproj"
+COPY ["WordToPdf/WordToPdf.csproj", "WordToPdf/"]
+RUN dotnet restore "WordToPdf/WordToPdf.csproj"
 
 # Copy the remaining files and build
 COPY . .
 WORKDIR "/src/WordToPdf"
-RUN dotnet build "./WordToPdf.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "WordToPdf.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Stage 3: Publish stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WordToPdf.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+WORKDIR /src/WordToPdf
+RUN dotnet publish "WordToPdf.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Stage 4: Final runtime image
 FROM base AS final
